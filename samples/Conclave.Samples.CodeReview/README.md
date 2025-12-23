@@ -1,6 +1,6 @@
 # Multi-Agent Code Review Sample
 
-This sample demonstrates Quorum's multi-agent capabilities with structured outputs by implementing a realistic code review system where multiple AI agents with different expertise analyze code from different perspectives.
+This sample demonstrates Conclave's multi-agent capabilities with structured outputs by implementing a realistic code review system where multiple AI agents with different expertise analyze code from different perspectives.
 
 ## What This Sample Shows
 
@@ -45,7 +45,7 @@ This makes it an excellent demonstration of how different experts catch differen
 
 2. Run the sample:
    ```bash
-   cd samples/Quorum.Samples.CodeReview
+   cd samples/Conclave.Samples.CodeReview
    dotnet run
    ```
 
@@ -53,7 +53,7 @@ This makes it an excellent demonstration of how different experts catch differen
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║       Quorum Multi-Agent Code Review System                  ║
+║       Conclave Multi-Agent Code Review System                ║
 ║       Powered by Democratic AI Decision Making               ║
 ╚══════════════════════════════════════════════════════════════╝
 
@@ -62,7 +62,7 @@ Creating review panel with specialized agents...
 Code under review:
 ────────────────────────────────────────────────────────────────
 UserService.cs - Authentication and user management service
-────────────────────────────────════════════════────────────────
+────────────────────────────────────────────────────────────────
 
 Starting multi-agent code review...
 

@@ -1,8 +1,8 @@
-# Quorum
+# Conclave
 
 A democratic multi-agent LLM workflow framework for building consensus-driven AI processes in C#.
 
-Quorum makes it easy to orchestrate multiple AI agents with different personalities, have them collaborate on tasks, and reach decisions through various voting and consensus mechanisms.
+Conclave makes it easy to orchestrate multiple AI agents with different personalities, have them collaborate on tasks, and reach decisions through various voting and consensus mechanisms.
 
 ## Features
 
@@ -20,10 +20,10 @@ Quorum makes it easy to orchestrate multiple AI agents with different personalit
 
 ```bash
 # Core library
-dotnet add package Quorum
+dotnet add package Conclave
 
 # ASP.NET Core integration (optional)
-dotnet add package Quorum.Extensions.AspNetCore
+dotnet add package Conclave.Extensions.AspNetCore
 ```
 
 ## Quick Start
@@ -31,12 +31,12 @@ dotnet add package Quorum.Extensions.AspNetCore
 ### Basic Usage
 
 ```csharp
-using Quorum;
-using Quorum.Abstractions;
-using Quorum.Models;
+using Conclave;
+using Conclave.Abstractions;
+using Conclave.Models;
 
 // Create a session
-using var session = new QuorumSession()
+using var session = new ConclaveSession()
     .AddOpenAi("your-openai-api-key")
     .AddAnthropic("your-anthropic-api-key")
     .AddGemini("your-gemini-api-key");
@@ -59,9 +59,9 @@ Console.WriteLine($"Consensus Score: {result.VotingResult?.ConsensusScore:P0}");
 ### Using the Builder Pattern
 
 ```csharp
-using Quorum.Agents;
-using Quorum.Providers;
-using Quorum.Workflows;
+using Conclave.Agents;
+using Conclave.Providers;
+using Conclave.Workflows;
 
 // Create providers
 var openAi = new OpenAiProvider(new HttpClient(), new OpenAiOptions
@@ -127,7 +127,7 @@ var agent = new AgentBuilder()
 ### Adding Tools to Agents
 
 ```csharp
-using Quorum.Tools;
+using Conclave.Tools;
 
 var searchTool = new ToolBuilder()
     .WithName("search")
@@ -175,14 +175,14 @@ var analysis = result.Value; // Typed as ProductAnalysis
 Install the ASP.NET Core extension package:
 
 ```bash
-dotnet add package Quorum.Extensions.AspNetCore
+dotnet add package Conclave.Extensions.AspNetCore
 ```
 
 #### Configuration via appsettings.json
 
 ```json
 {
-  "Quorum": {
+  "Conclave": {
     "OpenAi": {
       "ApiKey": "your-openai-api-key",
       "DefaultModel": "gpt-4o"
@@ -222,34 +222,34 @@ dotnet add package Quorum.Extensions.AspNetCore
 #### Program.cs Setup
 
 ```csharp
-using Quorum.Extensions.AspNetCore;
+using Conclave.Extensions.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Quorum with configuration from appsettings.json
-builder.Services.AddQuorum(builder.Configuration);
+// Add Conclave with configuration from appsettings.json
+builder.Services.AddConclave(builder.Configuration);
 
 var app = builder.Build();
 ```
 
-#### Using IQuorumFactory in Controllers
+#### Using IConclaveFactory in Controllers
 
 ```csharp
 [ApiController]
 [Route("api/[controller]")]
 public class AnalysisController : ControllerBase
 {
-    private readonly IQuorumFactory _quorum;
+    private readonly IConclaveFactory _conclave;
 
-    public AnalysisController(IQuorumFactory quorum)
+    public AnalysisController(IConclaveFactory conclave)
     {
-        _quorum = quorum;
+        _conclave = conclave;
     }
 
     [HttpPost]
     public async Task<IActionResult> Analyze([FromBody] AnalysisRequest request)
     {
-        var result = await _quorum.ExecuteAsync(
+        var result = await _conclave.ExecuteAsync(
             request.Task,
             VotingStrategy.Consensus);
 
@@ -271,7 +271,7 @@ public class AnalysisController : ControllerBase
 
 ```csharp
 // Configure with code instead of appsettings.json
-builder.Services.AddQuorum(config =>
+builder.Services.AddConclave(config =>
 {
     config.OpenAi = new OpenAiConfiguration
     {
@@ -317,7 +317,7 @@ Deliberation enables multi-round conversations between agents, allowing them to 
 ### Basic Deliberation
 
 ```csharp
-using Quorum.Deliberation;
+using Conclave.Deliberation;
 
 var deliberation = Deliberation.Create()
     .WithName("Strategic Planning")
@@ -558,38 +558,38 @@ var provider = new GeminiProvider(httpClient, new GeminiOptions
 
 | Package | Description |
 |---------|-------------|
-| `Quorum` | Core library with all agents, providers, and voting strategies |
-| `Quorum.Extensions.AspNetCore` | ASP.NET Core DI integration with `IQuorumFactory` |
+| `Conclave` | Core library with all agents, providers, and voting strategies |
+| `Conclave.Extensions.AspNetCore` | ASP.NET Core DI integration with `IConclaveFactory` |
 
 ## Architecture
 
 ```
-Quorum/
+Conclave/
 ├── src/
-│   ├── Quorum/                          # Core library
-│   │   ├── Abstractions/                # Core interfaces
-│   │   ├── Agents/                      # Agent implementation
-│   │   ├── Providers/                   # LLM providers (OpenAI, Claude, Gemini)
-│   │   ├── Voting/                      # Voting strategies
-│   │   ├── Workflows/                   # Workflow orchestration
-│   │   ├── Deliberation/                # Multi-round deliberation workflows
-│   │   ├── Tools/                       # Tool definitions
-│   │   ├── Models/                      # Data models
-│   │   ├── Configuration/               # Basic DI support
-│   │   └── QuorumSession.cs             # High-level session API
+│   ├── Conclave/                          # Core library
+│   │   ├── Abstractions/                  # Core interfaces
+│   │   ├── Agents/                        # Agent implementation
+│   │   ├── Providers/                     # LLM providers (OpenAI, Claude, Gemini)
+│   │   ├── Voting/                        # Voting strategies
+│   │   ├── Workflows/                     # Workflow orchestration
+│   │   ├── Deliberation/                  # Multi-round deliberation workflows
+│   │   ├── Tools/                         # Tool definitions
+│   │   ├── Models/                        # Data models
+│   │   ├── Configuration/                 # Basic DI support
+│   │   └── ConclaveSession.cs             # High-level session API
 │   │
-│   └── Quorum.Extensions.AspNetCore/    # ASP.NET Core extensions
-│       ├── QuorumConfiguration.cs       # Configuration models
-│       ├── QuorumServiceCollectionExtensions.cs
-│       ├── IQuorumFactory.cs
-│       ├── QuorumFactory.cs
+│   └── Conclave.Extensions.AspNetCore/    # ASP.NET Core extensions
+│       ├── ConclaveConfiguration.cs       # Configuration models
+│       ├── ConclaveServiceCollectionExtensions.cs
+│       ├── IConclaveFactory.cs
+│       ├── ConclaveFactory.cs
 │       └── ProviderRegistry.cs
 │
 ├── samples/
-│   └── Quorum.Samples.CodeReview/       # Multi-agent code review sample
+│   └── Conclave.Samples.CodeReview/       # Multi-agent code review sample
 │
 └── tests/
-    └── Quorum.Tests/                    # Unit tests
+    └── Conclave.Tests/                    # Unit tests
 ```
 
 ## Requirements
