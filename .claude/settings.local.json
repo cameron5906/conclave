@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln add:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet test:*)",
+      "Bash(ls:*)",
+      "Bash(powershell -Command \"Get-ChildItem -Path . -Filter *.cs -Recurse | Where-Object { $_FullName -notlike ''*\\obj\\*'' -and $_FullName -notlike ''*\\bin\\*'' } | ForEach-Object { (Get-Content $_FullName -Raw) -replace ''namespace Quorum'', ''namespace Conclave'' -replace ''using Quorum'', ''using Conclave'' | Set-Content $_FullName -NoNewline }\")",
+      "Bash(powershell -Command:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
